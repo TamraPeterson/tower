@@ -35,6 +35,7 @@ class TicketsService {
     const newTicket = await dbContext.Tickets.create(ticket)
     towerEvent.capacity--
     await towerEvent.save()
+    await newTicket.save()
     this.getAccountTickets(newTicket.accountId)//FIXME this line might not be working 
     this.getEventTickets(newTicket.eventId)
     return newTicket

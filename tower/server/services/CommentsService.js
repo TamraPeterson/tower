@@ -7,9 +7,10 @@ class CommentsService {
     return comments
   }
   async createComment(comment) {
-    const towerEvent = await towerEventsService.getOne(comment.eventId)
+    // const towerEvent = await towerEventsService.getOne(comment.eventId)
     const newComment = await dbContext.Comments.create(comment)
     await newComment.populate('creator', 'name picture')
+    await newComment.save()
     return newComment
   }
   deleteComment(userId, commentId, body) {
