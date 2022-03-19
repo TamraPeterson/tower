@@ -15,14 +15,22 @@ class TowerEventsService {
     return towerEvent
   }
   async create(newTowerEvent) {
+    let now = new Date()
+    let currentDate = now.toLocaleDateString()
+    if (newTowerEvent.startDate < currentDate) {
+      throw new BadRequest('That date has already passed')
+    }
     const towerEvent = await dbContext.TowerEvents.create(newTowerEvent)
     await towerEvent.populate('creator', 'name picture')
     return towerEvent
   }
 
 
-  async cancelEvent(id) {
-    const towerEvent = await dbContext.TowerEvents.findById(id)
+  async cancelEvent(eventId, userId) {
+    const towerEvent = await dbContext.TowerEvents.findById(eventId)
+    if (towerEvent.creatorId != userId) {
+      throw new BadRequest('this is not your event')
+    }
     towerEvent.isCanceled = !towerEvent.isCanceled
     await towerEvent.save()
     return towerEvent.isCanceled
@@ -34,7 +42,7 @@ class TowerEventsService {
       throw new BadRequest('You cant edit a cancelled event')
     }
     else if (originalEvent.creatorId.toString() !== update.creatorId) {
-      throw new Forbidden('Get outta town, error in update')
+      throw new Forbidden('Get outta town, thats not your event')
     }
     originalEvent.name = update.name ? update.name : originalEvent.name
     originalEvent.description = update.description ? update.description : originalEvent.description

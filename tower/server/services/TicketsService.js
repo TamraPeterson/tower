@@ -4,9 +4,6 @@ import { towerEventsService } from './TowerEventsService'
 
 class TicketsService {
 
-
-
-
   async getAccountTickets(query) {
     const accountTickets = await dbContext.Tickets.find(query).populate('towerEvent')
     return accountTickets.map(mongooseDocument => {
@@ -27,14 +24,19 @@ class TicketsService {
         ...ticketHolder.attendee
       }
     })
+
   }
 
   async createTicket(ticket) {
     const towerEvent = await towerEventsService.getOne(ticket.eventId)
+    if (towerEvent.capacity <= 0) {
+      throw new BadRequest('No more room at this event')
+    }
     const newTicket = await dbContext.Tickets.create(ticket)
     towerEvent.capacity--
     await towerEvent.save()
     this.getAccountTickets(newTicket.accountId)//FIXME this line might not be working 
+    this.getEventTickets(newTicket.eventId)
     return newTicket
   }
 
