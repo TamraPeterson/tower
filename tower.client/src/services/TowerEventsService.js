@@ -15,6 +15,22 @@ class TowerEventsService {
     }
   }
 
+  // async getNewer() {
+  //   const res = await api.get(AppState.newerPage)
+  //   logger.log('get newer', res.data)
+  //   AppState.towerEvents = res.data.events
+  //   AppState.newerPage = res.data.newer
+  //   AppState.olderPage = res.data.older
+
+  // }
+  // async getOlder() {
+  //   const res = await api.get(AppState.olderPage)
+  //   logger.log('get older', res.data)
+  //   AppState.posts = res.data.events
+  //   AppState.newerPage = res.data.newer
+  //   AppState.olderPage = res.data.older
+  // }
+
   async getById(id) {
     try {
       const res = await api.get('api/events/' + id)
