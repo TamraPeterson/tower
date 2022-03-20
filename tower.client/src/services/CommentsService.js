@@ -7,6 +7,8 @@ class CommentsService {
     const res = await api.post('api/comments', comment)
     logger.log('new comment', comment)
     AppState.comments.push(res.data)
+    //FIXME comments don't persist on refresh, so they aren't staying in the appstate
+    this.getComments(comment.eventId)
     return res.data
   }
   async getComments(eventId) {

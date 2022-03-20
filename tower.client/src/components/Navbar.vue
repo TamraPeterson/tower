@@ -3,9 +3,9 @@
     <b
       title="Add Event"
       class="
-        m-2
+        m-3
         create-btn
-        btn btn-secondary
+        btn btn-info
         rounded-pill
         shadow
         d-flex
@@ -13,13 +13,13 @@
         justify-content-center
       "
       data-bs-toggle="modal"
-      data-bs-target="#form-modal"
+      data-bs-target="#event-modal"
     >
       <i class="mdi mdi-plus"></i>
     </b>
     <router-link class="navbar-brand d-flex" :to="{ name: 'Home' }">
       <div class="d-flex flex-column align-items-center">
-        <h1 class="pt-3 ps-3">Tower Events</h1>
+        <h1 class="pt-3 ps-md-3">Tower Events</h1>
       </div>
     </router-link>
     <button
@@ -34,19 +34,14 @@
       <span class="navbar-toggler-icon" />
     </button>
     <div class="collapse navbar-collapse" id="navbarText">
-      <ul class="navbar-nav me-auto">
-        <li>
-          <router-link
-            :to="{ name: 'About' }"
-            class="btn text-white selectable text-uppercase pt-4 ps-3"
-          >
-            Your Events
-          </router-link>
-        </li>
-      </ul>
+      <ul class="navbar-nav me-auto"></ul>
       <!-- LOGIN COMPONENT HERE -->
       <Login />
     </div>
+    <Modal id="event-modal">
+      <template #modal-title>New Event</template>
+      <template #modal-body><CreateEventForm /></template>
+    </Modal>
   </nav>
 </template>
 
@@ -81,5 +76,14 @@ a:hover {
   border-bottom: 2px solid var(--bs-success);
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
+}
+.create-btn {
+  height: 50px;
+  width: 50px;
+  transition: 0.2s;
+}
+.create-btn:hover {
+  transform: scale(1.3);
+  transition: 0.2s;
 }
 </style>

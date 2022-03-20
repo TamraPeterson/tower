@@ -2,10 +2,19 @@
   <div class="container-fluid">
     <div
       v-if="account.id == towerEvent.creatorId"
-      class="row justify-content-end"
+      class="row justify-content-end cancel"
     >
-      <div class="col-md-2">
-        <button class="btn btn-info">Cancel Event</button>
+      <div class="col-md-3 d-flex flex-row">
+        <button
+          :disabled="towerEvent.isCanceled"
+          class="btn btn-info"
+          data-bs-toggle="modal"
+          data-bs-target="#event-modal"
+        >
+          Edit Event</button
+        ><button class="btn btn-info ms-3" @click="cancelEvent">
+          Cancel Event
+        </button>
       </div>
     </div>
 
@@ -14,7 +23,7 @@
         row
         justify-content-center
         mx-md-5
-        mt-3
+        mt-
         bg-secondary
         align-items-center
         p-3
@@ -45,6 +54,12 @@
           </button>
         </div>
       </div>
+    </div>
+    <div
+      v-if="towerEvent.isCanceled === true"
+      class="canceled row justify-content-center bg-danger text-center"
+    >
+      <h4 class="p-4">THIS EVENT IS CANCELED!</h4>
     </div>
     <h6 class="pt-3 ms-4">People Attending This Event:</h6>
     <div class="row justify-content-center">
@@ -97,17 +112,31 @@ export default {
         AppState.tickets.find((t) => t.id == AppState.account.id)
       ),
       createTicket() {
-        this.towerEvent.capacity--
-        let newTicket = {
-          accountId: AppState.account.id,
-          eventId: AppState.activeEvent.id
-        };
+        //FIXME need to make button disappear as soon as clicked, this error doesn't work.
         if (this.hasTicket) {
           Pop.toast('You are already attending this event')
+        } else {
+          this.towerEvent.capacity--
+          let newTicket = {
+            accountId: AppState.account.id,
+            eventId: AppState.activeEvent.id
+          };
+          ticketsService.createTicket(newTicket)
         }
-        ticketsService.createTicket(newTicket)
-      }
+      },
+      async cancelEvent() {
+        try {
+          if (await Pop.confirm("Are you sure you want to cancel this event?")) {
+            towerEventsService.cancelEvent(route.params.id)
+          }
 
+        } catch (error) {
+          logger.error(error)
+          Pop.toast(error.message, 'error')
+        }
+
+
+      }
     }
   }
 }
@@ -132,5 +161,11 @@ export default {
 .avatar:hover {
   transform: scale(1.3);
   transition: 0.2s;
+}
+.cancel {
+  transform: translateY(150%);
+}
+.canceled {
+  transform: translateY(-300%);
 }
 </style>

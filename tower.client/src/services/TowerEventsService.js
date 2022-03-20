@@ -41,6 +41,36 @@ class TowerEventsService {
       Pop.toast(error.message, 'error')
     }
   }
+
+  async getFilteredEvents(query) {
+    try {
+      const res = await api.get('api/events')
+      logger.log('getting events before filtering', res.data, query)
+      AppState.towerEvents = res.data
+      AppState.towerEvents = AppState.towerEvents.filter(t => t.type == query)
+      logger.log('filtered events', AppState.towerEvents);
+
+    } catch (error) {
+      logger.error(error)
+      Pop.toast(error.message, 'error')
+    }
+  }
+
+  async create(eventData) {
+    const res = await api.post('api/events', eventData)
+    logger.log('creating event', res.data)
+    AppState.towerEvents.push(res.data)
+    return res.send
+  }
+
+  async cancelEvent(id) {
+    const res = await api.get('api/events/' + id)
+    logger.log('cancel events', res.data)
+    res.data.isCanceled = !res.data.isCanceled
+    // await api.put('api/events', res.data)
+    // return res.data
+    // FIXME Event isn't updating for good
+  }
 }
 
 export const towerEventsService = new TowerEventsService()

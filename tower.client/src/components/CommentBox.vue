@@ -36,7 +36,13 @@
         :key="c.id"
         :value="c.id"
       >
-        <img class="avatar" :src="c.creator.picture" alt="" :title="c.name" />
+        <img
+          class="avatar"
+          :src="c.creator.picture"
+          alt=""
+          :title="account.name"
+        />
+        <!-- FIXME name of comment creator should appear, rather than account name? -->
         <p class="ms-5">" {{ c.body }} "</p>
       </div>
     </div>
@@ -71,6 +77,8 @@ export default {
     })
     return {
       comments: computed(() => AppState.comments),
+      account: computed(() => AppState.account),
+
       state,
       newComment() {
         let comment = {
