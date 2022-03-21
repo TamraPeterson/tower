@@ -1,5 +1,6 @@
 import { AppState } from "../AppState"
 import { logger } from "../utils/Logger"
+import Pop from "../utils/Pop"
 import { api } from "./AxiosService"
 
 class CommentsService {
@@ -14,7 +15,12 @@ class CommentsService {
   async getComments(eventId) {
     const res = await api.get('api/events/' + eventId + '/comments')
     logger.log('getting comments', res.data)
-    AppState.comments.filter = res.data
+    AppState.comments = res.data
+  }
+  async removeComment(id, eventId) {
+    await api.delete('api/comments/' + id)
+    AppState.comments.filter(c => c.id === id)
+    this.getComments(eventId)
   }
 }
 

@@ -9,7 +9,9 @@ class TicketsService {
     return accountTickets.map(mongooseDocument => {
       const accountTicket = mongooseDocument.toJSON()
       return {
-        eventId: accountTicket.id,
+        ticketId: accountTicket.id,
+        accountId: accountTicket.accountId,
+        // towerEvent: accountTicket.towerEvent,
         ...accountTicket.towerEvent
       }
     })
@@ -20,7 +22,9 @@ class TicketsService {
     return ticketHolders.map(mongooseDocument => {
       const ticketHolder = mongooseDocument.toJSON()
       return {
-        eventId: ticketHolder.id,
+        eventId: ticketHolder.eventId,
+        ticketId: ticketHolder.id,
+
         ...ticketHolder.attendee
       }
     })

@@ -90,7 +90,7 @@ import { useRoute } from "vue-router"
 import { logger } from "../utils/Logger";
 import { AppState } from "../AppState";
 import { towerEventsService } from "../services/TowerEventsService";
-import { ticketsService } from "../services/ticketsService";
+import { ticketsService } from "../services/TicketsService";
 import Pop from "../utils/Pop";
 import { api } from "../services/AxiosService";
 import { commentsService } from "../services/CommentsService";

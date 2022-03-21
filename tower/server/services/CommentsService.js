@@ -1,4 +1,5 @@
 import { dbContext } from "../db/DbContext"
+import { BadRequest } from "../utils/Errors"
 import { towerEventsService } from "./TowerEventsService"
 
 class CommentsService {
@@ -10,11 +11,14 @@ class CommentsService {
     // const towerEvent = await towerEventsService.getOne(comment.eventId)
     const newComment = await dbContext.Comments.create(comment)
     await newComment.populate('creator', 'name picture')
-    await newComment.save()
     return newComment
   }
-  deleteComment(userId, commentId, body) {
-    throw new Error("Method not implemented.");
+  async deleteComment(id, userId) {
+    const comment = await dbContext.Comments.findById(id)
+    if (comment.creatorId.toString() != userId) {
+      throw new BadRequest('not your comment!')
+    }
+    await dbContext.Comments.findOneAndRemove({ _id: id })
   }
 
 }

@@ -36,19 +36,23 @@
         :key="c.id"
         :value="c.id"
       >
+        <h5 v-if="c.creator.id == account.id" class="trash">
+          <i
+            class="mdi mdi-delete selectable"
+            title="delete-comment"
+            @click="removeComment(c.id, c.eventId)"
+          ></i>
+        </h5>
         <img
           class="avatar"
           :src="c.creator.picture"
           alt=""
           :title="account.name"
         />
-        <!-- FIXME name of comment creator should appear, rather than account name? -->
+        {{ c.creator.name }}
         <p class="ms-5">" {{ c.body }} "</p>
       </div>
     </div>
-  </div>
-  <div class="row justify-content-end">
-    <div class="col-2"></div>
   </div>
 </template>
 
@@ -87,6 +91,16 @@ export default {
           body: state.editable.body
         }
         commentsService.newComment(comment)
+      },
+      async removeComment(id, eventId) {
+        try {
+          if (await Pop.confirm('Are you sure you want to remove this comment?'))
+            await commentsService.removeComment(id, eventId)
+        } catch (error) {
+          logger.error(error)
+          Pop.toast(error.message, 'error')
+        }
+
       }
     }
   }
@@ -99,5 +113,8 @@ export default {
   height: 100px;
   width: 100px;
   border-radius: 50%;
+}
+.trash {
+  transform: translateY(-150%);
 }
 </style>
