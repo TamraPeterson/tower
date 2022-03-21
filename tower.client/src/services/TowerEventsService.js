@@ -63,6 +63,11 @@ class TowerEventsService {
     return res.send
   }
 
+  async update(update) {
+    const res = await api.put('api/events/' + update.id, update)
+    AppState.activeEvent = res.data
+  }
+
   async cancelEvent(id) {
     const res = await api.get('api/events/' + id)
     logger.log('cancel events', res.data)

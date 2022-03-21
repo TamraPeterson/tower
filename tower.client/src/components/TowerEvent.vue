@@ -1,6 +1,6 @@
 <template>
   <div @click="goTo">
-    <h6>{{ towerEvent.name }}</h6>
+    <h6 class="event-name">{{ towerEvent.name }}</h6>
     <img
       :src="towerEvent.coverImg"
       alt=""
@@ -40,5 +40,10 @@ export default {
   height: 250px;
   width: 250px;
   object-fit: cover;
+}
+.event-name {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 </style>

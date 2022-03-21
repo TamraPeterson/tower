@@ -1,6 +1,7 @@
 <template>
   <div
     class="modal fade"
+    id="form-modal"
     tabindex="-1"
     role="dialog"
     aria-labelledby="modelTitleId"

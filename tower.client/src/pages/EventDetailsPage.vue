@@ -8,8 +8,7 @@
         <button
           :disabled="towerEvent.isCanceled"
           class="btn btn-info"
-          data-bs-toggle="modal"
-          data-bs-target="#event-modal"
+          @click="openModal"
         >
           Edit Event</button
         ><button class="btn btn-info ms-3" @click="cancelEvent">
@@ -69,12 +68,18 @@
         </div>
       </div>
     </div>
-    <h6 class="p-2 pt-3 ms-4">What People are Saying About this Event:</h6>
+    <h6 class="pt-3 ms-4">What People are Saying About this Event:</h6>
     <div class="row justify-content-center">
       <div class="col-11 bg-secondary rounded p-3">
         <CommentBox />
       </div>
     </div>
+    <Modal>
+      <template #modal-title>Edit Event</template>
+      <template #modal-body
+        ><CreateEventForm :eventData="towerEvent"
+      /></template>
+    </Modal>
   </div>
 </template>
 
@@ -89,6 +94,7 @@ import { ticketsService } from "../services/ticketsService";
 import Pop from "../utils/Pop";
 import { api } from "../services/AxiosService";
 import { commentsService } from "../services/CommentsService";
+import { Modal } from "bootstrap";
 export default {
   setup() {
     const route = useRoute();
@@ -123,6 +129,9 @@ export default {
           };
           ticketsService.createTicket(newTicket)
         }
+      },
+      openModal() {
+        Modal.getOrCreateInstance(document.getElementById("form-modal")).show();
       },
       async cancelEvent() {
         try {

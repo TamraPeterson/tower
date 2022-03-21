@@ -21,6 +21,15 @@ class AccountService {
       logger.error(error)
     }
   }
+
+  async cancelMyTicket(eventId) {
+    try {
+      AppState.myAccountTickets = AppState.myAccountTickets.filter(t => t.eventId != eventId)
+      logger.log('remove ticket', AppState.myAccountTickets)
+    } catch (error) {
+      logger.log(error)
+    }
+  }
 }
 
 export const accountService = new AccountService()
