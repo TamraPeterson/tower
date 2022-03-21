@@ -17,6 +17,7 @@ class TicketsService {
     const res = await api.post('api/tickets', newTicket)
     logger.log('creating ticket', res.data)
     AppState.tickets.push(newTicket)
+    AppState.myAccountTickets.push(newTicket)
   }
 }
 

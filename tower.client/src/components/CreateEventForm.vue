@@ -124,11 +124,11 @@ export default {
           Pop.toast(error.message, "error");
         }
       },
-      async editCar() {
+      async editEvent() {
         try {
           await towerEventsService.update(editable.value);
           editable.value = {}
-          Modal.getOrCreateInstance(document.getElementById("event-modal")).hide();
+          Modal.getOrCreateInstance(document.getElementById("form-modal")).hide();
         } catch (error) {
           logger.error(error)
           Pop.toast(error.message, 'error')

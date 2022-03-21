@@ -9,6 +9,8 @@
           <input
             v-model="state.editable.body"
             required
+            name="comment-form"
+            id="comment-form"
             type="text"
             class="form-control"
             aria-describedby="helpId"
@@ -73,7 +75,9 @@ export default {
     });
     watchEffect(async () => {
       try {
-        await commentsService.getComments(route.params.id)
+        if (route.name == "EventDetails") {
+          await commentsService.getComments(route.params.id)
+        }
       } catch (error) {
         logger.error(error)
         Pop.toast(error.message, 'error')

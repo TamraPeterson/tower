@@ -1,7 +1,7 @@
 <template>
   <div class="container-fluid">
     <div
-      v-if="account.id == towerEvent.creatorId"
+      v-if="account.id === towerEvent.creatorId"
       class="row justify-content-end cancel"
     >
       <div class="col-md-3 d-flex flex-row">
@@ -11,7 +11,11 @@
           @click="openModal"
         >
           Edit Event</button
-        ><button class="btn btn-info ms-3" @click="cancelEvent">
+        ><button
+          :disabled="towerEvent.isCanceled"
+          class="btn btn-info ms-3"
+          @click="cancelEvent"
+        >
           Cancel Event
         </button>
       </div>
@@ -43,7 +47,7 @@
           {{ towerEvent.location }}
         </h6>
         <h4 class="text-center pt-2">Spots Left: {{ towerEvent.capacity }}</h4>
-        <div class="text-center">
+        <div class="text-center" v-if="towerEvent.capacity > 0">
           <button
             v-if="!this.hasTicket"
             class="btn btn-info m-3"
@@ -100,10 +104,13 @@ export default {
     const route = useRoute();
     watchEffect(async () => {
       try {
-        AppState.activeEvent = {};
-        await towerEventsService.getById(route.params.id)
-        await ticketsService.getEventTickets(route.params.id)
-        await commentsService.getComments(route.params.id)
+        if (route.name == "EventDetails") {
+          AppState.activeEvent = {};
+          await towerEventsService.getById(route.params.id)
+          await ticketsService.getEventTickets(route.params.id)
+          await commentsService.getComments(route.params.id)
+        }
+
       } catch (error) {
         logger.error(error)
         Pop.toast(error.message, 'error')
@@ -114,6 +121,8 @@ export default {
       account: computed(() => AppState.account),
       comments: computed(() => AppState.comments),
       tickets: computed(() => AppState.tickets),
+      // myAccountTickets: computed(() => AppState.myAccountTickets),
+
       hasTicket: computed(() =>
         AppState.tickets.find((t) => t.id == AppState.account.id)
       ),

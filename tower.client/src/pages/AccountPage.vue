@@ -7,14 +7,16 @@
   </div>
   <div class="container-fluid">
     <div class="row justify-content-center pt-4">
-      <div class="col-md-10"><h5>Events you're hosting:</h5></div>
+      <!-- <div class="col-md-10"><h5>Events you're hosting:</h5></div>
       <div class="col-md-10 bg-secondary p-2">
         <div class="row p-4">
-          <div class="col-3"></div>
+          <div class="col-2">
+            {{ account.name }}
+          </div>
         </div>
-      </div>
+      </div> -->
       <div class="col-md-10 pt-4"><h5>Events you're attending:</h5></div>
-      <div class="col-md-10 bg-secondary p-2">
+      <div class="col-md-10 bg-secondary p-4">
         <div class="row p-4 text-center">
           <div
             class="col-3 p-3 hover"
@@ -76,6 +78,7 @@ export default {
       },
       account: computed(() => AppState.account),
       myAccountTickets: computed(() => AppState.myAccountTickets),
+      towerEvents: computed(() => AppState.towerEvents)
 
     }
   }
