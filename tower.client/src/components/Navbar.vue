@@ -3,7 +3,7 @@
     <b
       title="Add Event"
       class="
-        m-3
+        m-md-3
         create-btn
         btn btn-info
         rounded-pill

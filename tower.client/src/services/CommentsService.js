@@ -4,7 +4,6 @@ import Pop from "../utils/Pop"
 import { api } from "./AxiosService"
 
 class CommentsService {
-  //FIXME comments don't persist on refresh, so they aren't staying in the appstate
   async newComment(comment) {
     const res = await api.post('api/comments', comment)
     logger.log('new comment', comment)

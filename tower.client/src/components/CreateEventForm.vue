@@ -105,8 +105,8 @@ export default {
     }
   },
   setup(props) {
-    const router = useRouter()
     const editable = ref({})
+    const router = useRouter()
     watchEffect(() => {
       editable.value = props.eventData
     })
@@ -114,12 +114,13 @@ export default {
       editable,
       async createEvent() {
         try {
-          const newEvent = await towerEventsService.create(editable.value);
+          let newEvent = await towerEventsService.create(editable.value);
           editable.value = {};
           Modal.getOrCreateInstance(
             document.getElementById("event-modal")
           ).hide();
           router.push({ name: 'EventDetails', params: { id: newEvent.id } })
+          logger.log('new event', newEvent)
         } catch (error) {
           logger.error(error);
           Pop.toast(error.message, "error");

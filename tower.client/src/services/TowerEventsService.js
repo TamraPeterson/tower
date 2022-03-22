@@ -60,7 +60,7 @@ class TowerEventsService {
     const res = await api.post('api/events', eventData)
     logger.log('creating event', res.data)
     AppState.towerEvents.push(res.data)
-    return res.send
+    return res.data
   }
 
   async update(update) {
@@ -71,13 +71,7 @@ class TowerEventsService {
   async cancelEvent(id) {
     const res = await api.delete('api/events/' + id)
     logger.log('cancel events', res.data)
-    // AppState.activeEvent = res.data
-    // AppState.activeEvent.isCanceled = !AppState.activeEvent.isCanceled
-    // logger.log('is it canceled yet?', AppState.activeEvent.isCanceled)
-    // return AppState.activeEvent
-    // await api.put('api/events', res.data)
-    // return res.data
-    // FIXME Event isn't updating for good
+
   }
 }
 
