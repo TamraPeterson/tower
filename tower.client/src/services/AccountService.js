@@ -22,13 +22,16 @@ class AccountService {
     }
   }
 
-  async cancelMyTicket(eventId) {
-    try {
-      AppState.myAccountTickets = AppState.myAccountTickets.filter(t => t.eventId != eventId)
-      logger.log('remove ticket', AppState.myAccountTickets)
-    } catch (error) {
-      logger.log(error)
-    }
+  async cancelMyTicket(towerEvent) {
+    await api.delete('/api/tickets/' + towerEvent.eventId)
+    // try {
+    //   logger.log('cancel ticket', towerEvent)
+    //   AppState.myAccountTickets = AppState.myAccountTickets.filter(t => t.id != ticket.id)
+    //   this.getMyEvents
+    //   logger.log('remove ticket', AppState.myAccountTickets)
+    // } catch (error) {
+    //   logger.log(error)
+    // }
   }
 }
 

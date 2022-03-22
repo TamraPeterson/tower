@@ -19,10 +19,15 @@
             <option value="digital">Digital</option>
             <option value="sport">Sport</option>
           </select>
+          <i
+            class="mdi mdi-cancel ms-2 selectable"
+            title="remove-filter"
+            @click="getAll"
+          ></i>
         </div>
         <div class="row p-md-4 justify-content-center text-center text-shadow">
           <div
-            class="col-md-3 p-2 my-3 hover"
+            class="col-md-3 p-2 my-md-3 hover"
             v-for="t in towerEvents"
             :key="t.id"
           >
@@ -63,6 +68,15 @@ export default {
       getFilteredEvents(event) {
         logger.log('home page get filtered', event.target.value)
         towerEventsService.getFilteredEvents(event.target.value)
+      },
+      getAll() {
+        try {
+          towerEventsService.getAllEvents()
+        } catch (error) {
+          logger.error(error)
+          Pop.toast(error.message, 'error')
+        }
+
       }
     }
   }

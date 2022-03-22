@@ -8,10 +8,15 @@
       title="event details"
     /><br />
   </div>
-  <h6 class="pt-2">
-    {{ new Date(towerEvent.startDate).toLocaleDateString() }}
+  <h6 v-if="towerEvent.isCanceled === true" class="bg-danger banner">
+    Cancelled
   </h6>
-  <p>{{ towerEvent.capacity }} tickets left</p>
+  <div v-else>
+    <h6 class="pt-2">
+      {{ new Date(towerEvent.startDate).toLocaleDateString() }}
+    </h6>
+    <p>{{ towerEvent.capacity }} tickets left</p>
+  </div>
 </template>
 
 

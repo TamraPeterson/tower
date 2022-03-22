@@ -19,15 +19,12 @@
       <div class="col-md-10 bg-secondary p-4">
         <div class="row p-4 text-center">
           <div
-            class="col-3 p-3 hover"
+            class="col-md-3 p-3 hover"
             v-for="t in myAccountTickets"
             :key="t.id"
           >
             <TowerEvent :towerEvent="t" />
-            <button
-              class="btn btn-info mb-3"
-              @click="cancelMyTicket(t.eventId)"
-            >
+            <button class="btn btn-info mb-3" @click="cancelMyTicket(t)">
               Cancel my ticket
             </button>
           </div>
@@ -44,6 +41,7 @@ import { logger } from "../utils/Logger"
 import Pop from "../utils/Pop"
 import { accountService } from "../services/AccountService"
 import { router } from "../router"
+import { ticketsService } from "../services/TicketsService"
 export default {
   props: {
     towerEvent: {
@@ -65,10 +63,10 @@ export default {
       goTo() {
         router.push({ name: 'EventDetails', params: { id: props.towerEvent.id } })
       },
-      async cancelMyTicket(id) {
+      async cancelMyTicket(towerEvent) {
         try {
           if (await Pop.confirm('Are you sure you want to give up your ticket?')) {
-            accountService.cancelMyTicket(id)
+            ticketsService.cancelMyTicket(towerEvent)
           }
 
         } catch (error) {

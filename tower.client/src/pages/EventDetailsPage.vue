@@ -42,14 +42,18 @@
       <div class="col-md-5">
         <h2 class="p-3">{{ towerEvent.name }}</h2>
         <h6 class="description">{{ towerEvent.description }}</h6>
-        <h6 class="p-3 text-center">
-          Date: {{ new Date(towerEvent.startDate).toLocaleString() }} ⭐
-          {{ towerEvent.location }}
-        </h6>
-        <h4 class="text-center pt-2">Spots Left: {{ towerEvent.capacity }}</h4>
+        <div v-if="towerEvent.isCanceled === false">
+          <h6 class="p-3 text-center">
+            Date: {{ new Date(towerEvent.startDate).toLocaleString() }} ⭐
+            {{ towerEvent.location }}
+          </h6>
+          <h4 class="text-center pt-2">
+            Spots Left: {{ towerEvent.capacity }}
+          </h4>
+        </div>
         <div class="text-center" v-if="towerEvent.capacity > 0">
           <button
-            v-if="!this.hasTicket"
+            v-if="!this.hasTicket && towerEvent.isCanceled === false"
             class="btn btn-info m-3"
             @click="createTicket"
           >
@@ -145,6 +149,7 @@ export default {
       async cancelEvent() {
         try {
           if (await Pop.confirm("Are you sure you want to cancel this event?")) {
+            this.towerEvent.capacity++
             towerEventsService.cancelEvent(route.params.id)
           }
 

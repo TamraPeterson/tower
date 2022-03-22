@@ -31,8 +31,9 @@
         />
       </div>
       <div class="form-group">
-        <label for="type" class="form-label mt-2">Event Type:</label>
+        <label for="type" class="form-label mt-2">Event Type:</label><br />
         <select
+          name="event-type"
           v-model="editable.type"
           class="custom-select rounded"
           id="event-type"
@@ -144,5 +145,10 @@ export default {
 .custom-select {
   width: 465px;
   height: 38px;
+}
+@media only screen and (max-width: 600px) {
+  #event-type {
+    width: 325px;
+  }
 }
 </style>

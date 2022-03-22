@@ -24,35 +24,41 @@
     </div>
     <div class="row justify-content-center">
       <div
-        class="
-          col-md-9
-          bg-dark
-          p-3
-          mt-4
-          d-flex
-          flex-row
-          align-items-center
-          rounded
-        "
+        class="col-md-7 bg-dark p-3 mt-4 align-items-center rounded"
         v-for="c in comments"
         :key="c.id"
         :value="c.id"
       >
-        <h5 v-if="c.creator.id == account.id" class="trash">
-          <i
-            class="mdi mdi-delete selectable"
-            title="delete-comment"
-            @click="removeComment(c.id, c.eventId)"
-          ></i>
-        </h5>
-        <img
+        <div class="row align-items-center justify-content-center">
+          <div class="col-md-5">
+            {{ c.creator.name }}
+            <div class="row ms-md-3">
+              <img class="avatar" :src="c.creator.picture" alt="" />
+            </div>
+          </div>
+
+          <div class="col-md-6 mt-2 mt-md-0 text-center text-md-start">
+            " {{ c.body }} "
+          </div>
+          <div class="col-md-1 text-end">
+            <h5 v-if="c.creator.id == account.id" class="">
+              <i
+                class="mdi mdi-delete selectable"
+                title="delete-comment"
+                @click="removeComment(c.id, c.eventId)"
+              ></i>
+            </h5>
+          </div>
+        </div>
+
+        <!-- <img
           class="avatar"
           :src="c.creator.picture"
           alt=""
           :title="account.name"
         />
         {{ c.creator.name }}
-        <p class="ms-5">" {{ c.body }} "</p>
+        <p class="ms-md-5">" {{ c.body }} "</p> -->
       </div>
     </div>
   </div>
@@ -114,11 +120,11 @@ export default {
 
 <style lang="scss" scoped>
 .avatar {
-  height: 100px;
+  height: 75px;
   width: 100px;
   border-radius: 50%;
 }
-.trash {
-  transform: translateY(-150%);
-}
+// .trash {
+//   transform: translateY(-150%);
+// }
 </style>

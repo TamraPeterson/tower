@@ -15,7 +15,7 @@
       data-bs-toggle="modal"
       data-bs-target="#event-modal"
     >
-      <i class="mdi mdi-plus"></i>
+      <i class="mdi mdi-plus" title="add-event"></i>
     </b>
     <router-link class="navbar-brand d-flex" :to="{ name: 'Home' }">
       <div class="d-flex flex-column align-items-center">
